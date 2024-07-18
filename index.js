@@ -9,6 +9,9 @@ const PORT = process.env.PORT || 5000;
 
 connectDB();
 
+app.use('/api/images', imageRoutes);
+app.use('/api', statusRoutes);
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
