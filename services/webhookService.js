@@ -1,11 +1,14 @@
-import nats from 'nats';
+import { connect } from 'nats';
 
-const connectNats = () => {
-  const nc = nats.connect();
-  nc.on('connect', () => {
+const connectNats = async () => {
+  try {
+    const nc = await connect({ servers: 'nats://localhost:4222' });
     console.log('Connected to NATS');
-  });
-  return nc;
+    return nc;
+  } catch (error) {
+    console.error('Failed to connect to NATS:', error);
+    throw error;
+  }
 };
 
 const notifyCompletion = (nc, requestId) => {

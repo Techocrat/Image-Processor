@@ -2,6 +2,9 @@ import express from "express";
 import connectDB from "./config/db.js";
 import dotenv from "dotenv";
 
+import imageRoutes from './routes/imageRoutes.js';
+import statusRoutes from './routes/statusRoutes.js';
+
 dotenv.config();
 const app = express();
 

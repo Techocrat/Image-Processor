@@ -25,10 +25,16 @@ const handleCSV = (filePath, requestId) => {
       .on('end', async () => {
         try {
           await Image.insertMany(images);
+          console.log('Images inserted:', images);
           resolve();
         } catch (error) {
+          console.error('Error inserting images:', error);
           reject(error);
         }
+      })
+      .on('error', (error) => {
+        console.error('Error reading CSV:', error);
+        reject(error);
       });
   });
 };
@@ -41,7 +47,7 @@ const uploadCSV = async (req, res) => {
   try {
     await handleCSV(req.file.path, requestId);
     startProcessing(requestId);
-    const nc = connectNats();
+    const nc = await connectNats();
     notifyCompletion(nc, requestId);
     res.status(200).json({ requestId });
   } catch (error) {
